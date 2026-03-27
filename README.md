@@ -14,7 +14,12 @@ A multimodal vision language model (VLM) built with **FastAPI**, **PyTorch**, an
 - `GET /health` — check API and model readiness
 - Modular `src/` package layout
 - Configurable settings with environment variables
-- Evaluation script for latency 
+- Evaluation scripts for model latency, API throughput, and model quality.
+
+## Models 
+
+- Captioning: Salesforce/blip-image-captioning-base
+- VQA: Salesforce/blip-vqa-base
 
 ## Tech Stack
 
@@ -41,6 +46,8 @@ vision-language-api/
 │           ├── __init__.py
 │           └── model_service.py
 ├── scripts/
+│   ├── evaluate_quality.py
+│   ├── evaluate_throughput.py 
 │   └── evaluate_latency.py
 ├── data/
 │   └── examples/
