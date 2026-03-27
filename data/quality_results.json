@@ -1,0 +1,125 @@
+{
+  "device": "cpu",
+  "caption_model": "Salesforce/blip-image-captioning-base",
+  "vqa_model": "Salesforce/blip-vqa-base",
+  "summary": {
+    "caption": {
+      "bleu_4": {
+        "count": 3,
+        "mean": 0.2581,
+        "median": 0.2985,
+        "min": 0.1775,
+        "max": 0.2985
+      },
+      "meteor": {
+        "count": 3,
+        "mean": 0.3924,
+        "median": 0.4749,
+        "min": 0.2273,
+        "max": 0.4749
+      },
+      "cider": {
+        "count": 3,
+        "mean": 0.237,
+        "median": 0.3329,
+        "min": 0.0452,
+        "max": 0.3329
+      }
+    },
+    "vqa": {
+      "top_1_accuracy": {
+        "count": 3,
+        "mean": 0.6667,
+        "median": 1.0,
+        "min": 0.0,
+        "max": 1.0
+      },
+      "exact_match": {
+        "count": 3,
+        "mean": 0.6667,
+        "median": 1.0,
+        "min": 0.0,
+        "max": 1.0
+      }
+    }
+  },
+  "details": [
+    {
+      "example_id": 1,
+      "image_path": "data/examples/dog.jpg",
+      "caption_prediction": "a brown dog with its tongue sticking out",
+      "caption_references": [
+        "a dog standing in the grass",
+        "a brown dog outdoors on grass",
+        "a dog in a grassy field"
+      ],
+      "caption_metrics": {
+        "bleu_4": 0.2985,
+        "meteor": 0.4749,
+        "cider": 0.3329
+      },
+      "question": "What is in the image?",
+      "answer_references": [
+        "dog",
+        "a dog"
+      ],
+      "answer_prediction": "dog",
+      "vqa_metrics": {
+        "top_1_accuracy": 1.0,
+        "exact_match": 1.0
+      }
+    },
+    {
+      "example_id": 2,
+      "image_path": "data/examples/dog.jpg",
+      "caption_prediction": "a brown dog with its tongue sticking out",
+      "caption_references": [
+        "a dog looking toward the camera in the grass",
+        "a dog outside in a grassy area",
+        "a brown dog standing on grass"
+      ],
+      "caption_metrics": {
+        "bleu_4": 0.2985,
+        "meteor": 0.4749,
+        "cider": 0.3329
+      },
+      "question": "Where is the dog standing?",
+      "answer_references": [
+        "grass",
+        "in the grass",
+        "on grass"
+      ],
+      "answer_prediction": "on road",
+      "vqa_metrics": {
+        "top_1_accuracy": 0.0,
+        "exact_match": 0.0
+      }
+    },
+    {
+      "example_id": 3,
+      "image_path": "data/examples/dog.jpg",
+      "caption_prediction": "a brown dog with its tongue sticking out",
+      "caption_references": [
+        "a single dog outdoors",
+        "one dog standing in the grass",
+        "a dog alone in a grassy field"
+      ],
+      "caption_metrics": {
+        "bleu_4": 0.1775,
+        "meteor": 0.2273,
+        "cider": 0.0452
+      },
+      "question": "How many dogs are visible?",
+      "answer_references": [
+        "1",
+        "one",
+        "one dog"
+      ],
+      "answer_prediction": "1",
+      "vqa_metrics": {
+        "top_1_accuracy": 1.0,
+        "exact_match": 1.0
+      }
+    }
+  ]
+}

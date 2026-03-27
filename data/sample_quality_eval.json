@@ -1,0 +1,35 @@
+[
+    {
+      "id": 1,
+      "image_path": "data/examples/dog.jpg",
+      "caption_references": [
+        "a dog standing in the grass",
+        "a brown dog outdoors on grass",
+        "a dog in a grassy field"
+      ],
+      "question": "What is in the image?",
+      "answer_references": ["dog", "a dog"]
+    },
+    {
+      "id": 2,
+      "image_path": "data/examples/dog.jpg",
+      "caption_references": [
+        "a dog looking toward the camera in the grass",
+        "a dog outside in a grassy area",
+        "a brown dog standing on grass"
+      ],
+      "question": "Where is the dog standing?",
+      "answer_references": ["grass", "in the grass", "on grass"]
+    },
+    {
+      "id": 3,
+      "image_path": "data/examples/dog.jpg",
+      "caption_references": [
+        "a single dog outdoors",
+        "one dog standing in the grass",
+        "a dog alone in a grassy field"
+      ],
+      "question": "How many dogs are visible?",
+      "answer_references": ["1", "one", "one dog"]
+    }
+  ]

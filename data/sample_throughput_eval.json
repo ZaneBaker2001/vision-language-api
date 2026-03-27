@@ -1,0 +1,16 @@
+[
+    {
+      "endpoint": "caption",
+      "image_path": "data/examples/dog.jpg"
+    },
+    {
+      "endpoint": "vqa",
+      "image_path": "data/examples/dog.jpg",
+      "question": "What is in the image?"
+    },
+    {
+      "endpoint": "analyze",
+      "image_path": "data/examples/dog.jpg",
+      "question": "What is the dog doing?"
+    }
+  ]
