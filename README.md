@@ -140,8 +140,9 @@ Response:  
 Evaluate the model's latency:
 
 ```bash
-PYTHONPATH=. python3 scripts/evaluate_latency.py --dataset data/sample_latency_eval.json --repeats 5 --warmup-runs 2 \
---output-json data/latency_results.json --output-dir data/latency_plots
+PYTHONPATH=. python3 scripts/evaluate_latency.py --dataset data/sample_latency_eval.json \
+--repeats 5 --warmup-runs 2 --output-json data/latency_results.json --output-dir \
+data/latency_plots \
 ```
 
 ## Evaluation Results 
