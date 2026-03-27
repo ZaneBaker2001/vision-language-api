@@ -1,0 +1,13 @@
+[
+    {
+      "task": "caption",
+      "image_path": "data/examples/dog.jpg",
+      "reference": "a dog running in the grass"
+    },
+    {
+      "task": "vqa",
+      "image_path": "data/examples/man_bike.jpg",
+      "question": "What is the man riding?",
+      "reference": "bike"
+    }
+  ]
