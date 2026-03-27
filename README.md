@@ -112,6 +112,8 @@ curl -X POST "http://127.0.0.1:8000/analyze" \
 -F "question=What shapes are visible?"
 ```
 
+Response: 
+
 ```json  
 {"filename":"test_house_with_colors.png",
 "caption":"an image of a triangle with three circles on it",
