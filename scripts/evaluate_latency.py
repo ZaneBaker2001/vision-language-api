@@ -6,7 +6,9 @@ from pathlib import Path
 from typing import Any
 
 import matplotlib.pyplot as plt
-import requests
+from PIL import Image
+
+from src.services.model_service import VisionLanguageService
 
 
 def load_json(path: Path) -> list[dict[str, Any]]:
@@ -37,38 +39,6 @@ def percentile(values: list[float], pct: float) -> float | None:
     return d0 + d1
 
 
-def send_caption_request(base_url: str, image_path: Path) -> tuple[float, int, dict[str, Any] | None]:
-    with image_path.open("rb") as f:
-        files = {"image": (image_path.name, f, "application/octet-stream")}
-        start = time.perf_counter()
-        response = requests.post(f"{base_url}/caption", files=files, timeout=120)
-        elapsed_ms = (time.perf_counter() - start) * 1000
-    payload = response.json() if response.headers.get("content-type", "").startswith("application/json") else None
-    return elapsed_ms, response.status_code, payload
-
-
-def send_vqa_request(base_url: str, image_path: Path, question: str) -> tuple[float, int, dict[str, Any] | None]:
-    with image_path.open("rb") as f:
-        files = {"image": (image_path.name, f, "application/octet-stream")}
-        data = {"question": question}
-        start = time.perf_counter()
-        response = requests.post(f"{base_url}/vqa", files=files, data=data, timeout=120)
-        elapsed_ms = (time.perf_counter() - start) * 1000
-    payload = response.json() if response.headers.get("content-type", "").startswith("application/json") else None
-    return elapsed_ms, response.status_code, payload
-
-
-def send_analyze_request(base_url: str, image_path: Path, question: str) -> tuple[float, int, dict[str, Any] | None]:
-    with image_path.open("rb") as f:
-        files = {"image": (image_path.name, f, "application/octet-stream")}
-        data = {"question": question}
-        start = time.perf_counter()
-        response = requests.post(f"{base_url}/analyze", files=files, data=data, timeout=120)
-        elapsed_ms = (time.perf_counter() - start) * 1000
-    payload = response.json() if response.headers.get("content-type", "").startswith("application/json") else None
-    return elapsed_ms, response.status_code, payload
-
-
 def summarize(values: list[float]) -> dict[str, float | int | None]:
     if not values:
         return {
@@ -89,121 +59,169 @@ def summarize(values: list[float]) -> dict[str, float | int | None]:
     }
 
 
+def load_image(image_path: Path) -> Image.Image:
+    if not image_path.exists():
+        raise FileNotFoundError(f"Missing image: {image_path}")
+    return Image.open(image_path).convert("RGB")
+
+
+def time_caption(service: VisionLanguageService, image: Image.Image) -> tuple[float, str]:
+    start = time.perf_counter()
+    prediction = service.generate_caption(image)
+    elapsed_ms = (time.perf_counter() - start) * 1000
+    return elapsed_ms, prediction
+
+
+def time_vqa(service: VisionLanguageService, image: Image.Image, question: str) -> tuple[float, str]:
+    start = time.perf_counter()
+    prediction = service.answer_question(image, question)
+    elapsed_ms = (time.perf_counter() - start) * 1000
+    return elapsed_ms, prediction
+
+
+def time_analyze(
+    service: VisionLanguageService,
+    image: Image.Image,
+    question: str,
+) -> tuple[float, dict[str, str]]:
+    start = time.perf_counter()
+    caption = service.generate_caption(image)
+    answer = service.answer_question(image, question)
+    elapsed_ms = (time.perf_counter() - start) * 1000
+    return elapsed_ms, {"caption": caption, "answer": answer}
+
+
+def warmup_model(service: VisionLanguageService, rows: list[dict[str, Any]], warmup_runs: int) -> None:
+    if not rows or warmup_runs <= 0:
+        return
+
+    first_image_path = Path(rows[0]["image_path"])
+    question = rows[0].get("question", "What is happening in this image?")
+    image = load_image(first_image_path)
+
+    for _ in range(warmup_runs):
+        service.generate_caption(image)
+        service.answer_question(image, question)
+
+
 def plot_average_latency(summary: dict[str, dict[str, float | int | None]], output_dir: Path) -> None:
-    endpoints = []
+    tasks = []
     means = []
 
-    for endpoint, stats in summary.items():
+    for task, stats in summary.items():
         if stats["mean_ms"] is not None:
-            endpoints.append(endpoint)
+            tasks.append(task)
             means.append(stats["mean_ms"])
 
     plt.figure(figsize=(8, 5))
-    plt.bar(endpoints, means)
-    plt.title("Average Latency by Endpoint")
-    plt.xlabel("Endpoint")
+    plt.bar(tasks, means)
+    plt.title("Average VLM Inference Latency by Task")
+    plt.xlabel("Task")
     plt.ylabel("Mean latency (ms)")
     plt.tight_layout()
-    plt.savefig(output_dir / "latency_mean_by_endpoint.png", dpi=200)
+    plt.savefig(output_dir / "latency_mean_by_task.png", dpi=200)
     plt.close()
 
 
 def plot_latency_histograms(latency_data: dict[str, list[float]], output_dir: Path) -> None:
-    for endpoint, values in latency_data.items():
+    for task, values in latency_data.items():
         if not values:
             continue
         plt.figure(figsize=(8, 5))
         plt.hist(values, bins=min(20, max(5, len(values))))
-        plt.title(f"Latency Distribution: {endpoint}")
+        plt.title(f"Latency Distribution: {task}")
         plt.xlabel("Latency (ms)")
         plt.ylabel("Frequency")
         plt.tight_layout()
-        safe_name = endpoint.strip("/").replace("/", "_") or "root"
+        safe_name = task.replace("/", "_")
         plt.savefig(output_dir / f"latency_hist_{safe_name}.png", dpi=200)
         plt.close()
 
 
 def evaluate_latency(
     dataset_path: Path,
-    base_url: str,
     repeats: int,
+    warmup_runs: int,
 ) -> dict[str, Any]:
     rows = load_json(dataset_path)
 
+    service = VisionLanguageService()
+    service.load_models()
+
+    warmup_model(service, rows, warmup_runs)
+
     latency_data: dict[str, list[float]] = {
-        "/caption": [],
-        "/vqa": [],
-        "/analyze": [],
+        "caption": [],
+        "vqa": [],
+        "analyze": [],
     }
     detailed_results: list[dict[str, Any]] = []
 
     for row in rows:
         image_path = Path(row["image_path"])
-        if not image_path.exists():
-            raise FileNotFoundError(f"Missing image: {image_path}")
-
         question = row.get("question", "What is happening in this image?")
+        image = load_image(image_path)
 
         for run_idx in range(repeats):
-            elapsed_ms, status_code, payload = send_caption_request(base_url, image_path)
-            latency_data["/caption"].append(elapsed_ms)
+            elapsed_ms, caption_prediction = time_caption(service, image)
+            latency_data["caption"].append(elapsed_ms)
             detailed_results.append(
                 {
-                    "endpoint": "/caption",
+                    "task": "caption",
                     "run": run_idx + 1,
                     "image_path": str(image_path),
                     "latency_ms": round(elapsed_ms, 2),
-                    "status_code": status_code,
-                    "response": payload,
+                    "prediction": caption_prediction,
                 }
             )
 
-            elapsed_ms, status_code, payload = send_vqa_request(base_url, image_path, question)
-            latency_data["/vqa"].append(elapsed_ms)
+            elapsed_ms, vqa_prediction = time_vqa(service, image, question)
+            latency_data["vqa"].append(elapsed_ms)
             detailed_results.append(
                 {
-                    "endpoint": "/vqa",
+                    "task": "vqa",
                     "run": run_idx + 1,
                     "image_path": str(image_path),
                     "question": question,
                     "latency_ms": round(elapsed_ms, 2),
-                    "status_code": status_code,
-                    "response": payload,
+                    "prediction": vqa_prediction,
                 }
             )
 
-            elapsed_ms, status_code, payload = send_analyze_request(base_url, image_path, question)
-            latency_data["/analyze"].append(elapsed_ms)
+            elapsed_ms, analyze_prediction = time_analyze(service, image, question)
+            latency_data["analyze"].append(elapsed_ms)
             detailed_results.append(
                 {
-                    "endpoint": "/analyze",
+                    "task": "analyze",
                     "run": run_idx + 1,
                     "image_path": str(image_path),
                     "question": question,
                     "latency_ms": round(elapsed_ms, 2),
-                    "status_code": status_code,
-                    "response": payload,
+                    "prediction": analyze_prediction,
                 }
             )
 
     summary = {
-        endpoint: summarize(values)
-        for endpoint, values in latency_data.items()
+        task: summarize(values)
+        for task, values in latency_data.items()
     }
 
     return {
-        "base_url": base_url,
+        "device": service.device,
+        "caption_model": service.settings.caption_model_name,
+        "vqa_model": service.settings.vqa_model_name,
         "repeats": repeats,
+        "warmup_runs": warmup_runs,
         "summary": summary,
         "details": detailed_results,
     }, latency_data
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Evaluate endpoint latency for the Vision Language API.")
+    parser = argparse.ArgumentParser(description="Evaluate direct VLM inference latency.")
     parser.add_argument("--dataset", type=Path, required=True, help="Path to latency evaluation JSON file.")
-    parser.add_argument("--base-url", type=str, default="http://127.0.0.1:8000", help="API base URL.")
-    parser.add_argument("--repeats", type=int, default=3, help="Number of runs per example.")
+    parser.add_argument("--repeats", type=int, default=5, help="Number of timed runs per example.")
+    parser.add_argument("--warmup-runs", type=int, default=2, help="Number of warmup runs before timing.")
     parser.add_argument("--output-json", type=Path, default=Path("data/latency_results.json"))
     parser.add_argument("--output-dir", type=Path, default=Path("data/latency_plots"))
     args = parser.parse_args()
@@ -211,8 +229,8 @@ def main() -> None:
     ensure_output_dir(args.output_dir)
     results, latency_data = evaluate_latency(
         dataset_path=args.dataset,
-        base_url=args.base_url.rstrip("/"),
         repeats=args.repeats,
+        warmup_runs=args.warmup_runs,
     )
 
     with args.output_json.open("w", encoding="utf-8") as f:
