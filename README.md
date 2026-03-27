@@ -1,6 +1,6 @@
 # Vision Language API
 
-A multimodal Vision Language Model (VLM) built with **FastAPI**, **PyTorch**, and **Hugging Face Transformers** for:
+A multimodal vision language model (VLM) built with **FastAPI**, **PyTorch**, and **Hugging Face Transformers** for:
 
 - **Image captioning**
 - **Visual question answering (VQA)**
@@ -119,7 +119,7 @@ curl -X POST "http://127.0.0.1:8000/analyze" \
 "answer":"circles"}
 ```
 
-Caption Request:
+Caption request:
 
 ```bash 
 curl -X POST "http://127.0.0.1:8000/caption" \
