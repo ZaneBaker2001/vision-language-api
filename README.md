@@ -59,6 +59,13 @@ vision-language-api/
 
 ## Quick Start 
 
+Clone the repository:
+
+```bash
+git clone https://github.com/ZaneBaker2001/vision-language-api.git 
+cd vision-language-api
+```
+
 Create a virtual environment: 
 
 ```bash
