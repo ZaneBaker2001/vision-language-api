@@ -6,6 +6,11 @@ A multimodal vision language model (VLM) built with **FastAPI**, **PyTorch**, an
 - **Visual question answering (VQA)**
 - **Combined image analysis via API**
 
+## Models 
+
+- Salesforce/blip-image-captioning-base
+- Salesforce/blip-vqa-base
+
 ## Features
 
 - `POST /caption` — generate a caption for an uploaded image
