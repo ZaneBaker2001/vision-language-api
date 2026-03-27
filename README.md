@@ -135,3 +135,31 @@ Response:  
 "caption":"an image of a triangle with three circles on it"}
 ```
 
+## Evaluation 
+
+Evaluate the model's latency:
+
+```bash
+PYTHONPATH=. python3 scripts/evaluate_latency.py --dataset data/sample_latency_eval.json --repeats 5 --warmup-runs 2 \
+--output-json data/latency_results.json --output-dir data/latency_plots
+```
+
+## Evaluation Results 
+
+The below plots visualize the latency results from a sample evaluation run.
+
+![Analysis Latency](./data/latency_plots/latency_hist_analyze.png)
+![Caption Latency](./data/latency_plots/latency_hist_caption.png)
+![VQA Latency](./data/latency_plots/latency_hist_vqa.png)
+![Average Endpoint Latency](./data/latency_plots/latency_mean_by_endpoint.png)
+![Average Task Latency](./data/latency_plots/latency_mean_by_task.png)
+
+These results reveal that VQA is the quickest task on average at about 195ms, captioning is much slower at about 970ms, and analysis is the slowest at about 1.1s. Since analysis combines both VQA and captioning, its latency is normal. VQA only requires a targted answer, explaining its low latency. Captioning requires analysis of the entire image, making its latency normal. 
+
+
+
+
+
+
+
+
