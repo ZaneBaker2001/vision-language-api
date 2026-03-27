@@ -7,27 +7,27 @@
   "summary": {
     "caption": {
       "count": 10,
-      "mean_ms": 969.99,
-      "median_ms": 912.18,
-      "min_ms": 904.61,
-      "max_ms": 1397.6,
-      "p95_ms": 1222.1
+      "mean_ms": 911.65,
+      "median_ms": 912.22,
+      "min_ms": 892.68,
+      "max_ms": 925.33,
+      "p95_ms": 922.09
     },
     "vqa": {
       "count": 10,
-      "mean_ms": 195.3,
-      "median_ms": 195.08,
-      "min_ms": 191.17,
-      "max_ms": 198.52,
-      "p95_ms": 198.51
+      "mean_ms": 195.18,
+      "median_ms": 195.72,
+      "min_ms": 187.8,
+      "max_ms": 197.91,
+      "p95_ms": 197.49
     },
     "analyze": {
       "count": 10,
-      "mean_ms": 1113.82,
-      "median_ms": 1101.81,
-      "min_ms": 1076.5,
-      "max_ms": 1193.63,
-      "p95_ms": 1172.58
+      "mean_ms": 1113.98,
+      "median_ms": 1116.77,
+      "min_ms": 1096.2,
+      "max_ms": 1128.36,
+      "p95_ms": 1126.52
     }
   },
   "details": [
@@ -35,7 +35,7 @@
       "task": "caption",
       "run": 1,
       "image_path": "data/examples/dog.jpg",
-      "latency_ms": 904.61,
+      "latency_ms": 892.68,
       "prediction": "a brown dog with its tongue sticking out"
     },
     {
@@ -43,7 +43,7 @@
       "run": 1,
       "image_path": "data/examples/dog.jpg",
       "question": "What is in the image?",
-      "latency_ms": 198.49,
+      "latency_ms": 194.26,
       "prediction": "dog"
     },
     {
@@ -51,7 +51,7 @@
       "run": 1,
       "image_path": "data/examples/dog.jpg",
       "question": "What is in the image?",
-      "latency_ms": 1100.72,
+      "latency_ms": 1096.2,
       "prediction": {
         "caption": "a brown dog with its tongue sticking out",
         "answer": "dog"
@@ -61,7 +61,7 @@
       "task": "caption",
       "run": 2,
       "image_path": "data/examples/dog.jpg",
-      "latency_ms": 911.05,
+      "latency_ms": 907.32,
       "prediction": "a brown dog with its tongue sticking out"
     },
     {
@@ -69,7 +69,7 @@
       "run": 2,
       "image_path": "data/examples/dog.jpg",
       "question": "What is in the image?",
-      "latency_ms": 191.17,
+      "latency_ms": 196.0,
       "prediction": "dog"
     },
     {
@@ -77,7 +77,7 @@
       "run": 2,
       "image_path": "data/examples/dog.jpg",
       "question": "What is in the image?",
-      "latency_ms": 1090.95,
+      "latency_ms": 1099.47,
       "prediction": {
         "caption": "a brown dog with its tongue sticking out",
         "answer": "dog"
@@ -87,7 +87,7 @@
       "task": "caption",
       "run": 3,
       "image_path": "data/examples/dog.jpg",
-      "latency_ms": 910.33,
+      "latency_ms": 909.44,
       "prediction": "a brown dog with its tongue sticking out"
     },
     {
@@ -95,7 +95,7 @@
       "run": 3,
       "image_path": "data/examples/dog.jpg",
       "question": "What is in the image?",
-      "latency_ms": 192.84,
+      "latency_ms": 187.8,
       "prediction": "dog"
     },
     {
@@ -103,7 +103,7 @@
       "run": 3,
       "image_path": "data/examples/dog.jpg",
       "question": "What is in the image?",
-      "latency_ms": 1099.0,
+      "latency_ms": 1124.26,
       "prediction": {
         "caption": "a brown dog with its tongue sticking out",
         "answer": "dog"
@@ -113,7 +113,7 @@
       "task": "caption",
       "run": 4,
       "image_path": "data/examples/dog.jpg",
-      "latency_ms": 917.95,
+      "latency_ms": 909.28,
       "prediction": "a brown dog with its tongue sticking out"
     },
     {
@@ -121,7 +121,7 @@
       "run": 4,
       "image_path": "data/examples/dog.jpg",
       "question": "What is in the image?",
-      "latency_ms": 198.52,
+      "latency_ms": 196.36,
       "prediction": "dog"
     },
     {
@@ -129,7 +129,7 @@
       "run": 4,
       "image_path": "data/examples/dog.jpg",
       "question": "What is in the image?",
-      "latency_ms": 1193.63,
+      "latency_ms": 1116.29,
       "prediction": {
         "caption": "a brown dog with its tongue sticking out",
         "answer": "dog"
@@ -139,7 +139,7 @@
       "task": "caption",
       "run": 5,
       "image_path": "data/examples/dog.jpg",
-      "latency_ms": 1007.61,
+      "latency_ms": 915.67,
       "prediction": "a brown dog with its tongue sticking out"
     },
     {
@@ -147,7 +147,7 @@
       "run": 5,
       "image_path": "data/examples/dog.jpg",
       "question": "What is in the image?",
-      "latency_ms": 197.76,
+      "latency_ms": 195.44,
       "prediction": "dog"
     },
     {
@@ -155,7 +155,7 @@
       "run": 5,
       "image_path": "data/examples/dog.jpg",
       "question": "What is in the image?",
-      "latency_ms": 1146.85,
+      "latency_ms": 1117.25,
       "prediction": {
         "caption": "a brown dog with its tongue sticking out",
         "answer": "dog"
@@ -165,7 +165,7 @@
       "task": "caption",
       "run": 1,
       "image_path": "data/examples/dog.jpg",
-      "latency_ms": 1397.6,
+      "latency_ms": 918.14,
       "prediction": "a brown dog with its tongue sticking out"
     },
     {
@@ -173,7 +173,7 @@
       "run": 1,
       "image_path": "data/examples/dog.jpg",
       "question": "What is the subject doing?",
-      "latency_ms": 194.7,
+      "latency_ms": 196.98,
       "prediction": "panting"
     },
     {
@@ -181,7 +181,7 @@
       "run": 1,
       "image_path": "data/examples/dog.jpg",
       "question": "What is the subject doing?",
-      "latency_ms": 1101.17,
+      "latency_ms": 1128.36,
       "prediction": {
         "caption": "a brown dog with its tongue sticking out",
         "answer": "panting"
@@ -191,7 +191,7 @@
       "task": "caption",
       "run": 2,
       "image_path": "data/examples/dog.jpg",
-      "latency_ms": 911.2,
+      "latency_ms": 908.52,
       "prediction": "a brown dog with its tongue sticking out"
     },
     {
@@ -199,7 +199,7 @@
       "run": 2,
       "image_path": "data/examples/dog.jpg",
       "question": "What is the subject doing?",
-      "latency_ms": 194.1,
+      "latency_ms": 195.32,
       "prediction": "panting"
     },
     {
@@ -207,7 +207,7 @@
       "run": 2,
       "image_path": "data/examples/dog.jpg",
       "question": "What is the subject doing?",
-      "latency_ms": 1109.58,
+      "latency_ms": 1122.43,
       "prediction": {
         "caption": "a brown dog with its tongue sticking out",
         "answer": "panting"
@@ -217,7 +217,7 @@
       "task": "caption",
       "run": 3,
       "image_path": "data/examples/dog.jpg",
-      "latency_ms": 913.03,
+      "latency_ms": 925.33,
       "prediction": "a brown dog with its tongue sticking out"
     },
     {
@@ -225,7 +225,7 @@
       "run": 3,
       "image_path": "data/examples/dog.jpg",
       "question": "What is the subject doing?",
-      "latency_ms": 195.47,
+      "latency_ms": 196.85,
       "prediction": "panting"
     },
     {
@@ -233,7 +233,7 @@
       "run": 3,
       "image_path": "data/examples/dog.jpg",
       "question": "What is the subject doing?",
-      "latency_ms": 1117.31,
+      "latency_ms": 1118.47,
       "prediction": {
         "caption": "a brown dog with its tongue sticking out",
         "answer": "panting"
@@ -243,7 +243,7 @@
       "task": "caption",
       "run": 4,
       "image_path": "data/examples/dog.jpg",
-      "latency_ms": 915.23,
+      "latency_ms": 915.09,
       "prediction": "a brown dog with its tongue sticking out"
     },
     {
@@ -251,7 +251,7 @@
       "run": 4,
       "image_path": "data/examples/dog.jpg",
       "question": "What is the subject doing?",
-      "latency_ms": 195.87,
+      "latency_ms": 197.91,
       "prediction": "panting"
     },
     {
@@ -259,7 +259,7 @@
       "run": 4,
       "image_path": "data/examples/dog.jpg",
       "question": "What is the subject doing?",
-      "latency_ms": 1076.5,
+      "latency_ms": 1103.19,
       "prediction": {
         "caption": "a brown dog with its tongue sticking out",
         "answer": "panting"
@@ -269,7 +269,7 @@
       "task": "caption",
       "run": 5,
       "image_path": "data/examples/dog.jpg",
-      "latency_ms": 911.33,
+      "latency_ms": 915.0,
       "prediction": "a brown dog with its tongue sticking out"
     },
     {
@@ -277,7 +277,7 @@
       "run": 5,
       "image_path": "data/examples/dog.jpg",
       "question": "What is the subject doing?",
-      "latency_ms": 194.1,
+      "latency_ms": 194.91,
       "prediction": "panting"
     },
     {
@@ -285,7 +285,7 @@
       "run": 5,
       "image_path": "data/examples/dog.jpg",
       "question": "What is the subject doing?",
-      "latency_ms": 1102.44,
+      "latency_ms": 1113.85,
       "prediction": {
         "caption": "a brown dog with its tongue sticking out",
         "answer": "panting"
